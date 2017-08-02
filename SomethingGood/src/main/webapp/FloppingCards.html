@@ -1,0 +1,122 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>FloppingCards</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<td><img alt="Card Back" src="img/card_back.jpg" width="200"
+				height="300"></td>
+			<td><img alt="Card Back" src="img/card_back.jpg" width="200"
+				height="300"></td>
+			<td><img alt="Card Back" src="img/card_back.jpg" width="200"
+				height="300"></td>
+			<td><img alt="Card Back" src="img/card_back.jpg" width="200"
+				height="300"></td>
+		</tr>
+		<tr>
+			<td><img alt="Card Back" src="img/card_back.jpg" width="200"
+				height="300"></td>
+			<td><img alt="Card Back" src="img/card_back.jpg" width="200"
+				height="300"></td>
+			<td><img alt="Card Back" src="img/card_back.jpg" width="200"
+				height="300"></td>
+			<td><img alt="Card Back" src="img/card_back.jpg" width="200"
+				height="300"></td>
+		</tr>
+	</table>
+
+
+</body>
+
+<script src="resources/jquery-3.2.1.min.js"></script>
+<script>
+	var flopped = [ false, false, false, false, false, false, false, false ];
+	var correct = [ false, false, false, false, false, false, false, false ];
+	var count = 0;
+
+	$(document)
+			.ready(
+					function() {
+						var i = 0;
+						$('img').each(function() {
+							$(this).attr('id', i);
+							i++;
+						});
+						$(
+								'tr:nth-child(1) td:nth-child(1) img, tr:nth-child(2) td:nth-child(2) img')
+								.click(function() {
+									init($(this), 'img/emma_watson.jpg');
+								});
+						$(
+								'tr:nth-child(1) td:nth-child(2) img, tr:nth-child(1) td:nth-child(3) img')
+								.click(function() {
+									init($(this), 'img/gakki.jpg');
+								});
+						$(
+								'tr:nth-child(1) td:nth-child(4) img, tr:nth-child(2) td:nth-child(4) img')
+								.click(function() {
+									init($(this), 'img/gal_gadot.jpg');
+								});
+						$(
+								'tr:nth-child(2) td:nth-child(1) img, tr:nth-child(2) td:nth-child(3) img')
+								.click(function() {
+									init($(this), "img/hzu_yu.jpg");
+								});
+
+						var timeout = null;
+						setInterval(function() {
+							if (count >= 2) {
+								timeout = setTimeout(function() {
+									bingo();
+									for (var i = 0; i < flopped.length; i++) {
+										if (flopped[i] && !correct[i]) {
+											$('#' + i).attr('src',
+													'img/card_back.jpg').css({
+												'width' : '200',
+												'height' : '300'
+											});
+											flopped[i] = false;
+										}
+									}
+									count = 0;
+									clearTimeout(timeout);
+								}, 1000);
+							}
+						}, 1000);
+					});
+
+	function init(image, path) {
+		if (flopped[image.attr('id')] == false) {
+			for ( var flop in flopped) {
+				if (flop == true) {
+					count++;
+				}
+			}
+			if (count < 3) {
+				image.attr('src', path).css({
+					'width' : '200',
+					'height' : '300'
+				});
+				flopped[image.attr('id')] = true;
+			}
+		}
+	}
+
+	function bingo() {
+		for (var i = 0; i < correct.length; i++) {
+			for (var j = 0; j < i; j++) {
+				if ($('#' + i).attr('src') === $('#' + j).attr('src')
+						&& $('#' + i).attr('src') !== "img/card_back.jpg"
+						&& $('#' + j).attr('src') !== "img/card_back.jpg") {
+					correct[i] = true;
+					correct[j] = true;
+				}
+			}
+
+		}
+	}
+</script>
+</html>
