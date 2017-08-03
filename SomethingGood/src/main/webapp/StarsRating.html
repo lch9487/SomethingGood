@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>StarsRating</title>
+</head>
+<body>
+	<img alt="star" src="img/star_empty.png" width="300" height="300">
+	<img alt="star" src="img/star_empty.png" width="300" height="300">
+	<img alt="star" src="img/star_empty.png" width="300" height="300">
+	<img alt="star" src="img/star_empty.png" width="300" height="300">
+	<img alt="star" src="img/star_empty.png" width="300" height="300">
+	<div></div>
+</body>
+
+<script src="resources/jquery-3.2.1.min.js"></script>
+<script>
+	var rating = 0;
+	var click = false;
+	$(document).ready(function() {
+
+		$('img').mouseover(function() {
+			if (!click) {
+				for (var i = 0; i <= $(this).index(); i++) {
+					$('img:eq(' + i + ')').attr('src', 'img/star_full.jpg');
+				}
+			}
+		});
+
+		$('img').mouseout(function() {
+			if (!click) {
+				for (var i = 0; i <= $('img').length; i++) {
+					$('img:eq(' + i + ')').attr('src', 'img/star_empty.png');
+				}
+			}
+		});
+
+		$('img').click(function() {
+			if (!click) {
+				for (var i = 0; i <= $(this).index(); i++) {
+					$('img:eq(' + i + ')').attr('src', 'img/star_full.jpg');
+				}
+			}
+			click = true;
+		});
+
+	});
+</script>
+</html>
