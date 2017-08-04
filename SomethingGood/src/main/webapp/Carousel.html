@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Carousel</title>
+</head>
+<body>
+	<div>
+		<img alt="Game of Thrones" src="img/got.jpg" width="600" height="400">
+	</div>
+	<div>
+		<img id="prev" alt="previous" src="img/prev.jpg" width="200" height="200">
+		<img id="pause" alt="pause" src="img/pause.jpg" width="200"
+			height="200"> <img id="next" alt="next" src="img/next.jpg" width="200"
+			height="200">
+	</div>
+	<div>
+		<span style="font-size: 48px; color: blue;">1</span>
+		<span style="font-size: 48px;">2</span>
+		<span style="font-size: 48px;">3</span>
+		<span style="font-size: 48px;">4</span>
+		<span style="font-size: 48px;">5</span>
+	</div>
+</body>
+
+<script src="resources/jquery-3.2.1.min.js"></script>
+<script>
+	var images = [ "img/got.jpg", "img/got_heads.jpg", "img/dragon.jpg",
+			"img/night_king.jpg", "img/three_eyed.jpg" ];
+	var imageNo = 0;
+	var play = true;
+	var interval = null;
+	
+	$(document).ready(function() {
+		$('#prev').click(function(){
+			imageNo == 0 ? imageNo = images.length - 1 : imageNo = (imageNo - 1) % images.length;
+			$('span').css('color', 'black');
+			$('span:eq(' + imageNo + ')').css('color', 'blue');
+			changeImage(imageNo);
+		});
+		
+		$('#next').click(function(){
+			imageNo = (imageNo + 1) % images.length;
+			$('span').css('color', 'black');
+			$('span:eq(' + imageNo + ')').css('color', 'blue');
+			changeImage(imageNo);
+		});
+		
+		$('#pause').click(function(){
+			if(play) {
+				play = false;
+				$(this).attr('src', 'img/play.jpg');
+				clearInterval(interval);	
+			} else {
+				play = true;
+				$(this).attr('src', 'img/pause.jpg');
+				interval = setInterval(function(){
+						imageNo = (imageNo + 1) % images.length;
+						$('span').css('color', 'black');
+						$('span:eq(' + imageNo + ')').css('color', 'blue');
+						changeImage(imageNo);
+				}, 2000);
+			}
+			
+		});
+		
+		$('span').click(function(){
+			imageNo = $(this).index();
+			$('span').css('color', 'black');
+			$(this).css('color', 'blue');
+			$('div:eq(0) img').attr('src', images[$(this).index()]);
+		});
+		
+		interval = setInterval(function(){
+				imageNo = (imageNo + 1) % images.length;
+				$('span').css('color', 'black');
+				$('span:eq(' + imageNo + ')').css('color', 'blue');
+				changeImage(imageNo);
+		}, 2000);
+		
+	});
+	
+	function changeImage(imageNo) {
+		$('div:eq(0) img').attr('src', images[imageNo]);
+	}
+</script>
+</html>
